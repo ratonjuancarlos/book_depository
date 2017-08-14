@@ -1,0 +1,1 @@
+[...document.getElementsByClassName("order-status cancelled")].map(o=>o.closest(".order").remove())
