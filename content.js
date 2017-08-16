@@ -1,42 +1,25 @@
-/*
-.order > .order-header > h2(Order number BDU-)
-.order > .order-header > div.order-status
-.order > .order-header > div.order-date > strong
+const optionSelected = ({ target: { value }}) => {
+	const displayAll = value === 'all' ? 'initial' : 'none';
+	[...document.getElementsByClassName("order-status")]
+		.map(o=>o.closest(".order").style.display=displayAll);
 
-.order > .order-items-wrap > .order-item > .item-info-wrap > .item-img > a > .img-responsive
-.order > .order-items-wrap > .order-item > .item-info-wrap > .item-info > h2 > a(texto)
-.order > .order-items-wrap > .order-item > .item-info-wrap > .item-info > p > .author
-.order > .order-items-wrap > .order-item > .item-info-wrap > .item-info > p ("Quantity: ")
-.order > .order-items-wrap > .order-item > .item-info-wrap > .item-info > .price-wrap > .price(ARS$)
-.order > .order-items-wrap > .order-item > .item-checkout-info > p > span(texto)
-.order > .order-totals-wrap > .order-total > .total > dd(ARS$)
-*/
-var orders = [];
+	[...document.getElementsByClassName(`order-status ${value}`)]
+		.map(o=>o.closest(".order").style.display='initial');
 
-[...document.getElementsByClassName("order")].map(o=> {
-	let orderNumber = o.querySelector(".order-header h2").innerText.replace('Order number ', '');
-	let orderDate = o.querySelector(".order-header .order-date strong").innerText;
-	let orderStatus = o.querySelector(".order-header .order-status").className.replace('order-status ','');
-    const items = [];
-    const itemArray = [...o.querySelector(".order-items-wrap")];
-  itemArray.map(i=> {
-    const imgSrc = i.querySelector(".item-img a .img-responsive").innerText;
-    items.push(item:{
-               imgSrc ,
-               })
-    
-  })
-	
-	orders.push({order:{
-		orderNumber,
-		orderDate,
-		orderStatus,
-        items,
-	}})
-	o.setAttribute("id", orderNumber)
+}
+
+
+const myDiv = document.getElementById("search-info");
+const options = ["All","Dispatched","Cancelled"];
+
+let selectList = document.createElement("select");
+selectList.id = "change-status";
+selectList.addEventListener("change", optionSelected);
+myDiv.appendChild(selectList);
+
+options.map(o=>{
+	const option = document.createElement("option");
+    option.value = o.toLowerCase();
+    option.text = o;
+    selectList.appendChild(option);
 })
-
-console.log(orders)
-
-
-// [...document.getElementsByClassName("order-status cancelled")].map(o=>o.closest(".order").remove())
